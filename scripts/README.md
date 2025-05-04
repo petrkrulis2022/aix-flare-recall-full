@@ -1,6 +1,14 @@
 # Scripts Directory
 
-This directory contains deployment and utility scripts for the project. Add your deployment scripts here.
+This directory contains scripts for deploying and interacting with smart contracts.
+
+## Structure
+
+- **crossChainPayment/**: Scripts for cross-chain payment contracts.
+- **fassets/**: Scripts for Flare assets.
+- **fdcExample/**: Scripts for FDC integration.
+- **proofOfReserves/**: Scripts for proof of reserves.
+- **weatherInsurance/**: Scripts for weather-based insurance.
 
 # Scripts
 

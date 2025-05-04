@@ -22,13 +22,6 @@ This directory contains all the smart contracts for the project. Organize contra
 
 ## Structure
 
-- **AIXSystemRegistry.sol**: Manages system-wide registrations and permissions.
-- **AIXToken.sol**: Implements the ERC-20 token with additional features.
-- **AIXValuation.sol**: Handles resource valuation and price feed integration.
-- **AIXVerification.sol**: Manages work verification and cross-chain attestations.
-
-Subdirectories:
-
 - **crossChainPayment/**: Contracts related to cross-chain payments.
 - **fassets/**: Contracts for Flare assets.
 - **fdcExample/**: Example contracts for FDC integration.

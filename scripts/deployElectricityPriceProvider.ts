@@ -1,0 +1,14 @@
+import { ethers } from "hardhat";
+
+async function main() {
+    const ElectricityPriceProvider = await ethers.getContractFactory("ElectricityPriceProvider");
+    const contract = await ElectricityPriceProvider.deploy();
+
+    await contract.deployed();
+    console.log("ElectricityPriceProvider deployed to:", contract.address);
+}
+
+main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+});

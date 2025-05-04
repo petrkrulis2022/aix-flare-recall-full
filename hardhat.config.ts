@@ -4,6 +4,8 @@ import "@nomiclabs/hardhat-web3";
 require("@nomiclabs/hardhat-truffle5");
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
+import docgen from "solidity-docgen";
+import "solidity-docgen";
 
 // import { vars } from "hardhat/config";
 const { vars } = require("hardhat/config");
@@ -132,13 +134,16 @@ const config: HardhatUserConfig = {
         ],
     },
     paths: {
-        sources: "./contracts/",
+        sources: "./our-contracts", // Updated to include the new folder
         tests: "./test/",
         cache: "./cache",
         artifacts: "./artifacts",
     },
     typechain: {
         target: "truffle-v5",
+    },
+    docgen: {
+        templates: "./templates",
     },
 };
 

@@ -117,4 +117,12 @@ contract ComputationalWorkProvider is IAIXAttestationProvider {
 
         emit AttestationCompleted(attestationId, verified);
     }
+
+    function registerProvider(
+        address provider,
+        bytes calldata credentials
+    ) external pure override returns (bool) {
+        // Simplified implementation for example purposes
+        return true;
+    }
 }

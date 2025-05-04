@@ -42,7 +42,7 @@ contract AIXValuation {
         return aixValue;
     }
 
-    function getLatestPrice(bytes32 resource) internal view returns (uint256) {
+    function getLatestPrice(bytes32 resource) public view returns (uint256) {
         address ftsoAddress = ftsoRegistry.getFTSOAddress(resource);
         IFTSO ftso = IFTSO(ftsoAddress);
 

@@ -1,0 +1,28 @@
+#
+{{contractName}}
+
+{{#if natspec.devdoc}}{{natspec.devdoc}}{{/if}}
+
+## Functions
+
+{{#each functions}}
+    ###
+    {{this.name}}
+
+    {{#if this.natspec}}{{this.natspec}}{{/if}}
+
+    - **Inputs:**
+    {{#each this.inputs}}
+        -
+        {{this.name}}:
+        {{this.type}}
+    {{/each}}
+
+    - **Outputs:**
+    {{#each this.outputs}}
+        -
+        {{this.name}}:
+        {{this.type}}
+    {{/each}}
+
+{{/each}}

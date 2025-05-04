@@ -32,10 +32,9 @@ contract CPUPriceProvider is IAIXDataProvider {
         bytes32 dataType,
         uint256 price,
         uint256 timestamp,
-        bytes calldata sourceData
+        bytes calldata /* sourceData */
     ) external override returns (bool) {
         require(dataType == keccak256("CPU_RESOURCE"), "Invalid data type");
-        require(verifySourceData(sourceData), "Invalid source data");
 
         historicalPrices[timestamp] = price;
 
@@ -45,19 +44,19 @@ contract CPUPriceProvider is IAIXDataProvider {
     }
 
     function verifySourceData(
-        bytes calldata sourceData
-    ) internal view returns (bool) {
+        bytes calldata /* sourceData */
+    ) internal pure returns (bool) {
         return true;
     }
 
-    function getProviderReputation() external view override returns (uint256) {
+    function getProviderReputation() external pure override returns (uint256) {
         return 100; // Simplified for example
     }
 
     function registerProvider(
-        address provider,
-        bytes calldata credentials
-    ) external override returns (bool) {
+        address /* provider */,
+        bytes calldata /* credentials */
+    ) external pure override returns (bool) {
         return true; // Simplified for example
     }
 }

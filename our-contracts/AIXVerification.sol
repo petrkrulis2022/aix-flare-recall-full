@@ -92,8 +92,8 @@ contract AIXVerification {
     }
 
     function parseAttestationData(
-        bytes memory data
-    ) internal pure returns (VerifiedWork memory work) {
+        bytes memory /* data */
+    ) internal view returns (VerifiedWork memory work) {
         return
             VerifiedWork({
                 workId: bytes32(0),
@@ -105,5 +105,13 @@ contract AIXVerification {
                 verificationTime: block.timestamp,
                 verified: true
             });
+    }
+
+    function verifyData(bytes memory /* data */) public pure returns (bool) {
+        return true;
+    }
+
+    function getVerificationTime() public view returns (uint256) {
+        return block.timestamp;
     }
 }
