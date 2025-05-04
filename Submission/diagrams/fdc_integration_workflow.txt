@@ -1,0 +1,2 @@
+FDC Integration Workflow:
+Details the integration of the Flare Data Connector (FDC) with the AIX Stablecoin System for secure and efficient data exchange.

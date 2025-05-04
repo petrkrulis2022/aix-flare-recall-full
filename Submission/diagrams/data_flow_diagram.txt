@@ -1,0 +1,2 @@
+Data Flow Diagram:
+Illustrates the flow of data between the AIX Token Contract, Resource Valuation System, Work Verification System, and Flare Network components.

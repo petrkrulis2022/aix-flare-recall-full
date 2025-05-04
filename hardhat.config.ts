@@ -2,6 +2,8 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-web3";
 require("@nomiclabs/hardhat-truffle5");
+import "@nomiclabs/hardhat-ethers";
+import { task } from "hardhat/config";
 
 // import { vars } from "hardhat/config";
 const { vars } = require("hardhat/config");
@@ -27,154 +29,148 @@ const GOERLI_API_URL = process.env.GOERLI_API_URL ?? "";
 const SEPOLIA_API_KEY = process.env.SEPOLIA_API_KEY ?? "";
 
 const config: HardhatUserConfig = {
-  solidity: {
-    compilers: [
-      {
-        version: "0.8.25",
-        settings: {
-          evmVersion: "london",
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
+    solidity: {
+        compilers: [
+            {
+                version: "0.8.25",
+                settings: {
+                    evmVersion: "london",
+                    optimizer: {
+                        enabled: true,
+                        runs: 200,
+                    },
+                },
+            },
+        ],
+    },
+    networks: {
+        goerli: {
+            url: `https://eth-goerli.alchemyapi.io/v2/${GOERLI_API_URL}`,
+            accounts: [`${PRIVATE_KEY}`],
         },
-      },
-    ],
-  },
-  networks: {
-    goerli: {
-      url: `https://eth-goerli.alchemyapi.io/v2/${GOERLI_API_URL}`,
-      accounts: [`${PRIVATE_KEY}`],
-    },
-    sepolia: {
-      url: `https://rpc.ankr.com/eth_sepolia/${SEPOLIA_API_KEY}`,
-      accounts: [`${PRIVATE_KEY}`],
-    },
-    coston: {
-      url: FLARE_RPC_API_KEY
-        ? `https://coston-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
-        : "https://coston-api.flare.network/ext/C/rpc",
-      accounts: [`${PRIVATE_KEY}`],
-      chainId: 16,
-    },
-    coston2: {
-      url: FLARE_RPC_API_KEY
-        ? `https://coston2-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
-        : "https://coston2-api.flare.network/ext/C/rpc",
-      accounts: [`${PRIVATE_KEY}`],
-      chainId: 114,
-    },
-    songbird: {
-      url: FLARE_RPC_API_KEY
-        ? `https://songbird-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
-        : "https://songbird-api.flare.network/ext/C/rpc",
-      accounts: [`${PRIVATE_KEY}`],
-      chainId: 19,
-    },
-    flare: {
-      url: FLARE_RPC_API_KEY
-        ? `https://flare-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
-        : "https://flare-api.flare.network/ext/C/rpc",
-      accounts: [`${PRIVATE_KEY}`],
-      chainId: 14,
-    },
-  },
-  etherscan: {
-    apiKey: {
-      goerli: `${ETHERSCAN_API_URL}`,
-      coston: `${FLARESCAN_API_KEY}`,
-      coston2: `${FLARESCAN_API_KEY}`,
-      songbird: `${FLARESCAN_API_KEY}`,
-      flare: `${FLARESCAN_API_KEY}`,
-      sepolia: `${ETHERSCAN_API_URL}`,
-    },
-    customChains: [
-      {
-        network: "coston",
-        chainId: 16,
-        urls: {
-          // faucet: https://faucet.towolabs.com/
-          apiURL:
-            "https://coston-explorer.flare.network/api" +
-            (FLARE_EXPLORER_API_KEY
-              ? `?x-apikey=${FLARE_EXPLORER_API_KEY}`
-              : ""), // Must not have / endpoint
-          browserURL: "https://coston-explorer.flare.network",
+        sepolia: {
+            url: `https://rpc.ankr.com/eth_sepolia/${SEPOLIA_API_KEY}`,
+            accounts: [`${PRIVATE_KEY}`],
         },
-      },
-      {
-        network: "coston2",
-        chainId: 114,
-        urls: {
-          // faucet: https://coston2-faucet.towolabs.com/
-          apiURL:
-            "https://coston2-explorer.flare.network/api" +
-            (FLARE_EXPLORER_API_KEY
-              ? `?x-apikey=${FLARE_EXPLORER_API_KEY}`
-              : ""), // Must not have / endpoint
-          browserURL: "https://coston2-explorer.flare.network",
+        coston: {
+            url: "https://coston-api.flare.network/ext/bc/C/rpc",
+            accounts: [`${PRIVATE_KEY}`],
+            chainId: 16,
         },
-      },
-      {
-        network: "songbird",
-        chainId: 19,
-        urls: {
-          apiURL:
-            "https://songbird-explorer.flare.network/api" +
-            (FLARE_EXPLORER_API_KEY
-              ? `?x-apikey=${FLARE_EXPLORER_API_KEY}`
-              : ""), // Must not have / endpoint
-          browserURL: "https://songbird-explorer.flare.network/",
+        coston2: {
+            url: FLARE_RPC_API_KEY
+                ? `https://coston2-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
+                : "https://coston2-api.flare.network/ext/C/rpc",
+            accounts: [`${PRIVATE_KEY}`],
+            chainId: 114,
         },
-      },
-      {
-        network: "flare",
-        chainId: 14,
-        urls: {
-          apiURL:
-            "https://flare-explorer.flare.network/api" +
-            (FLARE_EXPLORER_API_KEY
-              ? `?x-apikey=${FLARE_EXPLORER_API_KEY}`
-              : ""), // Must not have / endpoint
-          browserURL: "https://flare-explorer.flare.network/",
+        songbird: {
+            url: "https://songbird-api.flare.network/ext/bc/C/rpc",
+            accounts: [`${PRIVATE_KEY}`],
+            chainId: 19,
         },
-      },
-    ],
-  },
-  paths: {
-    sources: "./contracts/",
-    tests: "./test/",
-    cache: "./cache",
-    artifacts: "./artifacts",
-  },
-  typechain: {
-    target: "truffle-v5",
-  },
+        flare: {
+            url: FLARE_RPC_API_KEY
+                ? `https://flare-api-tracer.flare.network/ext/C/rpc?x-apikey=${FLARE_RPC_API_KEY}`
+                : "https://flare-api.flare.network/ext/C/rpc",
+            accounts: [`${PRIVATE_KEY}`],
+            chainId: 14,
+        },
+    },
+    etherscan: {
+        apiKey: {
+            goerli: `${ETHERSCAN_API_URL}`,
+            coston: `${FLARESCAN_API_KEY}`,
+            coston2: `${FLARESCAN_API_KEY}`,
+            songbird: `${FLARESCAN_API_KEY}`,
+            flare: `${FLARESCAN_API_KEY}`,
+            sepolia: `${ETHERSCAN_API_URL}`,
+        },
+        customChains: [
+            {
+                network: "coston",
+                chainId: 16,
+                urls: {
+                    // faucet: https://faucet.towolabs.com/
+                    apiURL:
+                        "https://coston-explorer.flare.network/api" +
+                        (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+                    browserURL: "https://coston-explorer.flare.network",
+                },
+            },
+            {
+                network: "coston2",
+                chainId: 114,
+                urls: {
+                    // faucet: https://coston2-faucet.towolabs.com/
+                    apiURL:
+                        "https://coston2-explorer.flare.network/api" +
+                        (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+                    browserURL: "https://coston2-explorer.flare.network",
+                },
+            },
+            {
+                network: "songbird",
+                chainId: 19,
+                urls: {
+                    apiURL:
+                        "https://songbird-explorer.flare.network/api" +
+                        (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+                    browserURL: "https://songbird-explorer.flare.network/",
+                },
+            },
+            {
+                network: "flare",
+                chainId: 14,
+                urls: {
+                    apiURL:
+                        "https://flare-explorer.flare.network/api" +
+                        (FLARE_EXPLORER_API_KEY ? `?x-apikey=${FLARE_EXPLORER_API_KEY}` : ""), // Must not have / endpoint
+                    browserURL: "https://flare-explorer.flare.network/",
+                },
+            },
+        ],
+    },
+    paths: {
+        sources: "./contracts/",
+        tests: "./test/",
+        cache: "./cache",
+        artifacts: "./artifacts",
+    },
+    typechain: {
+        target: "truffle-v5",
+    },
 };
 
 if (USE_FLARESCAN) {
-  const FLARESCAN_DATA = [
-    {
-      apiURL: "https://api.routescan.io/v2/network/testnet/evm/16/etherscan",
-      browserURL: "https://coston.testnet.flarescan.com",
-    },
-    {
-      apiURL: "https://api.routescan.io/v2/network/testnet/evm/114/etherscan",
-      browserURL: "https://coston2.testnet.flarescan.com",
-    },
-    {
-      apiURL: "https://api.routescan.io/v2/network/mainnet/evm/19/etherscan",
-      browserURL: "https://songbird.flarescan.com",
-    },
-    {
-      apiURL: "https://api.routescan.io/v2/network/mainnet/evm/14/etherscan",
-      browserURL: "https://mainnet.flarescan.com",
-    },
-  ];
+    const FLARESCAN_DATA = [
+        {
+            apiURL: "https://api.routescan.io/v2/network/testnet/evm/16/etherscan",
+            browserURL: "https://coston.testnet.flarescan.com",
+        },
+        {
+            apiURL: "https://api.routescan.io/v2/network/testnet/evm/114/etherscan",
+            browserURL: "https://coston2.testnet.flarescan.com",
+        },
+        {
+            apiURL: "https://api.routescan.io/v2/network/mainnet/evm/19/etherscan",
+            browserURL: "https://songbird.flarescan.com",
+        },
+        {
+            apiURL: "https://api.routescan.io/v2/network/mainnet/evm/14/etherscan",
+            browserURL: "https://mainnet.flarescan.com",
+        },
+    ];
 
-  for (let i = 0; i < FLARESCAN_DATA.length; i++) {
-    config.etherscan.customChains[i].urls = FLARESCAN_DATA[i];
-  }
+    for (let i = 0; i < FLARESCAN_DATA.length; i++) {
+        config.etherscan.customChains[i].urls = FLARESCAN_DATA[i];
+    }
 }
+
+// Define a simple Hardhat task to fetch the latest block number
+task("blockNumber", "Prints the latest block number", async (taskArgs, hre) => {
+    const blockNumber = await hre.ethers.provider.getBlockNumber();
+    console.log("Latest block number:", blockNumber);
+});
 
 export default config;

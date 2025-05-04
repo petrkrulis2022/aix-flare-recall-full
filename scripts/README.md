@@ -1,3 +1,7 @@
+# Scripts Directory
+
+This directory contains deployment and utility scripts for the project. Add your deployment scripts here.
+
 # Scripts
 
 This folder contains scripts that demonstrate, how to interact with enshrined Flare protocols and official deployed contracts.

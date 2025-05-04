@@ -1,0 +1,2 @@
+FTSO Flow Diagram:
+Describes the interaction between the Flare Time Series Oracle (FTSO) and the AIX Stablecoin System for price feeds and data aggregation.

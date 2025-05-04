@@ -1,0 +1,19 @@
+1. System Architecture Overview
+The updated AIX stablecoin architecture integrates both Flare Time Series Oracle (FTSO) and Flare Data Connector (FDC) to create a robust, decentralized system for computational resource-backed stablecoins:
+┌─────────────────────────────────────────────────────────────────┐
+│                     AIX Stablecoin System                        │
+├─────────────┬─────────────────────────────┬─────────────────────┤
+│             │                             │                     │
+│  AIX Token  │     Resource Valuation      │  Work Verification  │
+│  Contract   │         System              │      System         │
+│             │                             │                     │
+├─────────────┴─────────────────────────────┴─────────────────────┤
+│                                                                 │
+│                      Flare Network Integration                  │
+│                                                                 │
+├─────────────────────────────┬─────────────────────────────────┤
+│                             │                                 │
+│    Flare Time Series        │       Flare Data                │
+│    Oracle (FTSO)            │       Connector (FDC)           │
+│                             │                                 │
+└─────────────────────────────┴─────────────────────────────────┘

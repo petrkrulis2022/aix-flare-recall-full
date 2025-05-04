@@ -1,0 +1,2 @@
+Cross-Chain Verification Diagram:
+Depicts the process of verifying cross-chain transactions within the AIX Stablecoin System.

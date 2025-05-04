@@ -118,3 +118,29 @@ rm -rf contracts/* & mv scripts/fdcExample/Base.ts ./Base.ts & rm -rf scripts/* 
 - [Flare Developer Hub](https://dev.flare.network/)
 - [Hardhat Guides](https://dev.flare.network/fdc/guides/hardhat)
 - [Hardhat Docs](https://hardhat.org/docs)
+
+## Known Issues
+
+### Dependency Vulnerabilities
+This project has some unresolved dependency vulnerabilities as of May 3, 2025. These include:
+
+- **Critical Vulnerabilities:**
+  - `elliptic`: No fix available for multiple issues, including missing signature length checks and private key extraction vulnerabilities.
+  - `webpack`: Cross-realm object access and DOM clobbering vulnerabilities.
+
+- **High Vulnerabilities:**
+  - `axios`: Cross-Site Request Forgery (CSRF) and Server-Side Request Forgery (SSRF) vulnerabilities.
+  - `braces`, `browserify-sign`, and others: Issues related to uncontrolled resource consumption and signature forgery.
+
+- **Moderate and Low Vulnerabilities:**
+  - Found in dependencies like `micromatch`, `nanoid`, and `serialize-javascript`.
+
+### Notes for Future Development
+- These vulnerabilities do not impact the core functionality of the project and are acceptable for a hackathon prototype.
+- Developers should address these issues before deploying the project in a production environment.
+- Consider updating or replacing dependencies with known vulnerabilities when possible.
+
+### How to Address
+- Run `npm audit` to view the full list of vulnerabilities.
+- Use `npm audit fix` or manually update dependencies to resolve issues where fixes are available.
+- Monitor upstream repositories for updates to dependencies with unresolved vulnerabilities.
