@@ -33,7 +33,17 @@ contract AIXVerification {
         bool verified;
     }
 
+    struct Task {
+        bytes32 taskId;
+        address worker;
+        bytes32 attestationId;
+        bool verified;
+        bool paid;
+        uint256 timestamp;
+    }
+
     mapping(bytes32 => VerifiedWork) public verifiedWork;
+    mapping(bytes32 => Task) public tasks;
 
     event VerificationRequested(
         bytes32 attestationId,
@@ -41,14 +51,18 @@ contract AIXVerification {
         address requester
     );
 
+    event TaskSubmitted(bytes32 taskId, address worker);
+    event TaskVerified(bytes32 taskId, bool success);
+    event TaskPaid(bytes32 taskId, address worker, uint256 amount);
+
     constructor(address _fdcRegistry) {
         fdcRegistry = IFDCRegistry(_fdcRegistry);
     }
 
     function verifyComputationalWork(
         bytes32 workId,
-        bytes calldata workProof
-    ) external returns (bytes32 attestationId) {
+        bytes memory workProof
+    ) public returns (bytes32 attestationId) {
         address providerAddress = fdcRegistry.getAttestationProvider(
             keccak256("COMPUTATIONAL_WORK")
         );
@@ -69,7 +83,7 @@ contract AIXVerification {
 
     function checkVerificationStatus(
         bytes32 attestationId
-    ) external view returns (bool verified, VerifiedWork memory work) {
+    ) public view returns (bool verified, VerifiedWork memory work) {
         if (verifiedWork[attestationId].verified) {
             return (true, verifiedWork[attestationId]);
         }
@@ -113,5 +127,60 @@ contract AIXVerification {
 
     function getVerificationTime() public view returns (uint256) {
         return block.timestamp;
+    }
+
+    function submitTask(
+        bytes32 taskId,
+        bytes memory workProof
+    ) external returns (bytes32) {
+        bytes32 attestationId = verifyComputationalWork(taskId, workProof);
+
+        tasks[taskId] = Task({
+            taskId: taskId,
+            worker: msg.sender,
+            attestationId: attestationId,
+            verified: false,
+            paid: false,
+            timestamp: block.timestamp
+        });
+
+        emit TaskSubmitted(taskId, msg.sender);
+
+        return attestationId;
+    }
+
+    function verifyTask(bytes32 taskId) external returns (bool) {
+        Task storage task = tasks[taskId];
+
+        require(task.timestamp > 0, "Task not found");
+        require(!task.verified, "Task already verified");
+
+        (bool verified, VerifiedWork memory work) = checkVerificationStatus(
+            task.attestationId
+        );
+
+        if (verified) {
+            task.verified = true;
+        }
+
+        emit TaskVerified(taskId, verified);
+
+        return verified;
+    }
+
+    function payForTask(bytes32 taskId) external returns (uint256) {
+        Task storage task = tasks[taskId];
+
+        require(task.timestamp > 0, "Task not found");
+        require(task.verified, "Task not verified");
+        require(!task.paid, "Task already paid");
+
+        uint256 amount = 100; // Placeholder for payment logic
+
+        task.paid = true;
+
+        emit TaskPaid(taskId, task.worker, amount);
+
+        return amount;
     }
 }

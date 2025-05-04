@@ -46,8 +46,7 @@ contract AIXValuation {
         address ftsoAddress = ftsoRegistry.getFTSOAddress(resource);
         IFTSO ftso = IFTSO(ftsoAddress);
 
-        (uint256 price, uint256 timestamp, uint256 decimals) = ftso
-            .getCurrentPrice();
+        (uint256 price, , ) = ftso.getCurrentPrice();
 
         return price;
     }
