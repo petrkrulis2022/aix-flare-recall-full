@@ -6,12 +6,16 @@ async function main() {
     console.log("Deploying contracts with the account:", deployer.address);
 
     const AIXSystemRegistry = await ethers.getContractFactory("AIXSystemRegistry");
-    const registry = await AIXSystemRegistry.deploy();
+    const registry = await AIXSystemRegistry.deploy(
+        "0x0000000000000000000000000000000000000001",
+        "0x0000000000000000000000000000000000000002"
+    );
     await registry.deployed();
 
     console.log("AIXSystemRegistry deployed to:", registry.address);
 
     const AIXToken = await ethers.getContractFactory("AIXToken");
+    console.log("Registry address being passed to AIXToken constructor:", registry.address);
     const aixToken = await AIXToken.deploy(registry.address);
     await aixToken.deployed();
 

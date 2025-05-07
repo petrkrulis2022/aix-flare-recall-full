@@ -134,7 +134,8 @@ const config: HardhatUserConfig = {
         ],
     },
     paths: {
-        sources: "./our-contracts", // Updated to include the new folder
+        sources: "./contracts", // Include the contracts folder for compilation
+        sources: "./our-contracts", // Include the our-contracts folder for compilation
         tests: "./test/",
         cache: "./cache",
         artifacts: "./artifacts",

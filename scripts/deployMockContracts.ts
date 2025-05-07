@@ -1,12 +1,17 @@
 import { ethers } from "hardhat";
 
 async function main() {
-    const ContractFactory = await ethers.getContractFactory("MockContracts");
-    const contract = await ContractFactory.deploy();
+    // Deploy MockFTSORegistry
+    const MockFTSORegistry = await ethers.getContractFactory("our-contracts/MockContracts.sol:MockFTSORegistry");
+    const ftsoRegistry = await MockFTSORegistry.deploy();
+    await ftsoRegistry.deployed();
+    console.log("MockFTSORegistry deployed to:", ftsoRegistry.address);
 
-    await contract.deployed();
-
-    console.log("MockContracts deployed to:", contract.address);
+    // Deploy MockFDCClient
+    const MockFDCClient = await ethers.getContractFactory("our-contracts/MockContracts.sol:MockFDCClient");
+    const fdcClient = await MockFDCClient.deploy();
+    await fdcClient.deployed();
+    console.log("MockFDCClient deployed to:", fdcClient.address);
 }
 
 main().catch(error => {

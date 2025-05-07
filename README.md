@@ -10,69 +10,69 @@ If you are new to Hardhat please check the [Hardhat getting started doc](https:/
 
 1. Clone and install dependencies:
 
-   ```console
-   git clone https://github.com/flare-foundation/flare-hardhat-starter.git
-   cd flare-hardhat-starter
-   ```
+    ```console
+    git clone https://github.com/flare-foundation/flare-hardhat-starter.git
+    cd flare-hardhat-starter
+    ```
 
-   and then run:
+    and then run:
 
-   ```console
-   yarn
-   ```
+    ```console
+    yarn
+    ```
 
-   or
+    or
 
-   ```console
-   npm install
-   ```
+    ```console
+    npm install
+    ```
 
 2. Set up `.env` file
 
-   ```console
-   mv .env.example .env
-   ```
+    ```console
+    mv .env.example .env
+    ```
 
 3. Change the `PRIVATE_KEY` in the `.env` file to yours
 
 4. Compile the project
 
-   ```console
-   yarn hardhat compile
-   ```
+    ```console
+    yarn hardhat compile
+    ```
 
-   or
+    or
 
-   ```console
-   npx hardhat compile
-   ```
+    ```console
+    npx hardhat compile
+    ```
 
-   This will compile all `.sol` files in your `/contracts` folder.
-   It will also generate artifacts that will be needed for testing.
-   Contracts `Imports.sol` import MockContracts and Flare related mocks, thus enabling mocking of the contracts from typescript.
+    This will compile all `.sol` files in your `/contracts` folder.
+    It will also generate artifacts that will be needed for testing.
+    Contracts `Imports.sol` import MockContracts and Flare related mocks, thus enabling mocking of the contracts from typescript.
 
 5. Run Tests
 
-   ```console
-   yarn hardhat test
-   ```
+    ```console
+    yarn hardhat test
+    ```
 
-   or
+    or
 
-   ```console
-   npx hardhat test
-   ```
+    ```console
+    npx hardhat test
+    ```
 
 6. Deploy
 
-   Check the `hardhat.config.ts` file, where you define which networks you want to interact with.
-   Flare mainnet & test network details are already added in that file.
+    Check the `hardhat.config.ts` file, where you define which networks you want to interact with.
+    Flare mainnet & test network details are already added in that file.
 
-   Make sure that you have added API Keys in the `.env` file
+    Make sure that you have added API Keys in the `.env` file
 
-   ```console
-   npx hardhat run scripts/tryDeployment.ts
-   ```
+    ```console
+    npx hardhat run scripts/tryDeployment.ts
+    ```
 
 ## Repository structure
 
@@ -122,25 +122,35 @@ rm -rf contracts/* & mv scripts/fdcExample/Base.ts ./Base.ts & rm -rf scripts/* 
 ## Known Issues
 
 ### Dependency Vulnerabilities
+
 This project has some unresolved dependency vulnerabilities as of May 3, 2025. These include:
 
 - **Critical Vulnerabilities:**
-  - `elliptic`: No fix available for multiple issues, including missing signature length checks and private key extraction vulnerabilities.
-  - `webpack`: Cross-realm object access and DOM clobbering vulnerabilities.
+
+    - `elliptic`: No fix available for multiple issues, including missing signature length checks and private key extraction vulnerabilities.
+    - `webpack`: Cross-realm object access and DOM clobbering vulnerabilities.
 
 - **High Vulnerabilities:**
-  - `axios`: Cross-Site Request Forgery (CSRF) and Server-Side Request Forgery (SSRF) vulnerabilities.
-  - `braces`, `browserify-sign`, and others: Issues related to uncontrolled resource consumption and signature forgery.
+
+    - `axios`: Cross-Site Request Forgery (CSRF) and Server-Side Request Forgery (SSRF) vulnerabilities.
+    - `braces`, `browserify-sign`, and others: Issues related to uncontrolled resource consumption and signature forgery.
 
 - **Moderate and Low Vulnerabilities:**
-  - Found in dependencies like `micromatch`, `nanoid`, and `serialize-javascript`.
+    - Found in dependencies like `micromatch`, `nanoid`, and `serialize-javascript`.
 
 ### Notes for Future Development
+
 - These vulnerabilities do not impact the core functionality of the project and are acceptable for a hackathon prototype.
 - Developers should address these issues before deploying the project in a production environment.
 - Consider updating or replacing dependencies with known vulnerabilities when possible.
 
 ### How to Address
+
 - Run `npm audit` to view the full list of vulnerabilities.
 - Use `npm audit fix` or manually update dependencies to resolve issues where fixes are available.
 - Monitor upstream repositories for updates to dependencies with unresolved vulnerabilities.
+
+## Related Repositories and Resources
+
+- **AIX Recall Repository**: [filecoin-recall-aix-agent](https://github.com/petrkrulis2022/filecoin-recall-aix-agent)
+- **AIX Recall Demo Video**: [Watch on YouTube](https://youtu.be/yc78Lbig09U?si=AxH38k6AcGiKJbFS)
