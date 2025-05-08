@@ -39,6 +39,10 @@ contract AIXToken is ERC20, Ownable {
         address _registry
     ) ERC20("AI Exchange Token", "AIX") Ownable(msg.sender) {
         registry = AIXSystemRegistry(_registry);
+
+        // Mint initial supply to the deployer's wallet
+        uint256 initialSupply = 1_000_000 * 10 ** decimals(); // 1 million AIX tokens
+        _mint(msg.sender, initialSupply);
     }
 
     // Resource usage tracking
@@ -58,9 +62,14 @@ contract AIXToken is ERC20, Ownable {
     // Authorized minters (validators)
     mapping(address => bool) public authorizedMinters;
 
+    // Constants for resource identifiers
+    bytes32 public constant CPU_RESOURCE = keccak256("CPU_RESOURCE");
+    bytes32 public constant GPU_RESOURCE = keccak256("GPU_RESOURCE");
+    bytes32 public constant ELECTRICITY_RESOURCE = keccak256("ELECTRICITY");
+
     // Events
     event ResourcesRecorded(bytes32 taskId, uint256 cpuUsage, uint256 gpuUsage);
-    event PriceUpdated(string resourceType, uint256 newPrice);
+    event ResourcePricingUpdated(uint256 newCpuPrice, uint256 newGpuPrice);
 
     // Add a minter
     function addMinter(address minter) external onlyOwner {
@@ -125,8 +134,7 @@ contract AIXToken is ERC20, Ownable {
         cpuPricePerUnit = newCpuPrice;
         gpuPricePerUnit = newGpuPrice;
 
-        emit PriceUpdated("CPU", newCpuPrice);
-        emit PriceUpdated("GPU", newGpuPrice);
+        emit ResourcePricingUpdated(newCpuPrice, newGpuPrice);
     }
 
     function mintForVerifiedWork(
@@ -163,10 +171,10 @@ contract AIXToken is ERC20, Ownable {
         IAIXValuation valuation,
         IAIXVerification.VerifiedWork memory work
     ) internal view returns (uint256) {
-        uint256 cpuPrice = valuation.getLatestPrice(keccak256("CPU_RESOURCE"));
-        uint256 gpuPrice = valuation.getLatestPrice(keccak256("GPU_RESOURCE"));
+        uint256 cpuPrice = valuation.getLatestPrice(CPU_RESOURCE);
+        uint256 gpuPrice = valuation.getLatestPrice(GPU_RESOURCE);
         uint256 electricityPrice = valuation.getLatestPrice(
-            keccak256("ELECTRICITY")
+            ELECTRICITY_RESOURCE
         );
 
         uint256 cpuValue = work.cpuUsage * cpuPrice;

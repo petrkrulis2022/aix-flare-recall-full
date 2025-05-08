@@ -24,7 +24,7 @@ This file contains a list of all contracts deployed during the project, along wi
 
 ### AIXToken
 
-- **Address:** `0xd030877a913D2b21Dc5f9B006CeAD1864B4dfaB9`
+- **Address:** `0xa68cDc7e3643d3282211af1B368Ad68360cb3494`
 - **Description:** A token contract for the AIX ecosystem, used for transactions and governance.
 - **Verification Status:** Verified
 
